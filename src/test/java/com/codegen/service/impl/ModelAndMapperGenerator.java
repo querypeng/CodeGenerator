@@ -24,7 +24,7 @@ public class ModelAndMapperGenerator extends CodeGeneratorManager implements Cod
 
 	@Override
 	public void genCode(String tableName, String modelName, String sign) {
-		Context initConfig = initConfig(tableName, modelName, sign);
+		Context initConfig = initConfig(tableName, tableNameConvertUpperCamel(tableName), sign);
 		List<String> warnings = null;
 		MyBatisGenerator generator = null;
 		try {

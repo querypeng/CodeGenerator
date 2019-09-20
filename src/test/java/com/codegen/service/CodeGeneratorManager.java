@@ -16,9 +16,7 @@ import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codegen.service.impl.ControllerGenerator;
 import com.codegen.service.impl.ModelAndMapperGenerator;
-import com.codegen.service.impl.ServiceGenerator;
 import com.codegen.util.StringUtils;
 import com.google.common.base.CaseFormat;
 
@@ -127,7 +125,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
 	 * @return
 	 */
 	protected String tableNameConvertUpperCamel(String tableName) {
-		return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName.toLowerCase());
+		return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName.substring(4).toLowerCase());
 	}
 	
 	/**
@@ -182,7 +180,7 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
 	 */
 	private String[] getTableNameSplit(String tableName) {
 		String[] strs = tableName.split("_");
-		if (!tableName.contains("_") || strs.length < 3) {
+		if (!tableName.contains("_") || strs.length < 0) {
 			throw new RuntimeException("表名格式不正确, 请按规定格式! 例如: gen_test_demo");
 		}
 		return strs;
@@ -215,8 +213,6 @@ public class CodeGeneratorManager extends CodeGeneratorConfig {
 			modelName = getDefModelName(tableName);
 		}
 		new ModelAndMapperGenerator().genCode(tableName, modelName, sign);
-		new ServiceGenerator().genCode(tableName, modelName, sign);
-		new ControllerGenerator().genCode(tableName, modelName, sign);
 	}
 	
 	/**
